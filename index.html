@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chair Weaving | Danish Cord & Seat Restoration</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ========================================
+           CSS VARIABLES - Your Color Palette
+           ======================================== */
+        :root {
+            /* Core surfaces */
+            --bg-paper: #F1EFEA;
+            --bg-card: #E9DABB;
+            --bg-clay: #D5A583;
+            
+            /* Brand accents */
+            --accent-terracotta: #D76C4F;
+            --accent-sage: #768F5F;
+            --accent-lilac: #888ED8;
+            
+            /* Typography */
+            --ink: #25231F;
+            --charcoal: #615F59;
+            --muted-brown: #90715F;
+            
+            /* Optional deep anchor */
+            --deep-forest: #2F3B2F;
+            
+            /* Spacing */
+            --space-xs: 0.5rem;
+            --space-sm: 1rem;
+            --space-md: 2rem;
+            --space-lg: 4rem;
+            --space-xl: 6rem;
+        }
+
+        /* ========================================
+           BASE STYLES
+           ======================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-paper);
+            color: var(--charcoal);
+            line-height: 1.6;
+        }
+
+        /* ========================================
+           NAVIGATION
+           ======================================== */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--space-sm) var(--space-md);
+            background-color: var(--bg-paper);
+            border-bottom: 1px solid rgba(144, 113, 95, 0.2);
+            z-index: 100;
+        }
+
+        .logo {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 1.25rem;
+            font-weight: 400;
+            color: var(--ink);
+            text-decoration: none;
+            letter-spacing: 0.02em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: var(--space-md);
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--charcoal);
+            text-decoration: none;
+            text-transform: lowercase;
+            letter-spacing: 0.03em;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-terracotta);
+        }
+
+        /* ========================================
+           HERO SECTION
+           ======================================== */
+        .hero {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-lg);
+            align-items: center;
+            padding: calc(var(--space-xl) + 60px) var(--space-md) var(--space-xl);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero-content {
+            max-width: 540px;
+        }
+
+        .hero-image {
+            height: 70vh;
+            min-height: 500px;
+            max-height: 700px;
+            background-color: var(--bg-card);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(144, 113, 95, 0.3);
+        }
+
+        .hero-image span {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            color: var(--muted-brown);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+
+        .hero h1 {
+            font-family: 'Libre Baskerville', serif;
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 400;
+            color: var(--ink);
+            line-height: 1.2;
+            margin-bottom: var(--space-md);
+        }
+
+        .hero-intro {
+            font-size: 1.125rem;
+            color: var(--charcoal);
+            line-height: 1.7;
+            margin-bottom: var(--space-md);
+        }
+
+        .hero-cta {
+            display: inline-block;
+            padding: 0.875rem 1.75rem;
+            background-color: var(--accent-terracotta);
+            color: var(--bg-paper);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.875rem;
+            font-weight: 500;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .hero-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(215, 108, 79, 0.3);
+        }
+
+        /* Hand-drawn divider */
+        .divider {
+            width: 60px;
+            height: 2px;
+            background-color: var(--ink);
+            margin: var(--space-lg) 0;
+            position: relative;
+        }
+
+        .divider::after {
+            content: '';
+            position: absolute;
+            top: 6px;
+            left: 10px;
+            width: 40px;
+            height: 1px;
+            background-color: var(--muted-brown);
+        }
+
+        /* ========================================
+           WORK SECTION - Photo Grid
+           ======================================== */
+        #work {
+            background-color: var(--bg-clay);
+            padding: var(--space-xl) var(--space-md);
+        }
+
+        .section-header {
+            max-width: 1200px;
+            margin: 0 auto var(--space-lg);
+        }
+
+        .section-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--muted-brown);
+            margin-bottom: var(--space-xs);
+        }
+
+        .section-title {
+            font-family: 'Libre Baskerville', serif;
+            font-size: clamp(1.75rem, 3vw, 2.25rem);
+            font-weight: 400;
+            color: var(--ink);
+        }
+
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--space-sm);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .photo-item {
+            aspect-ratio: 4/3;
+            background-color: var(--bg-paper);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Placeholder styling for photos */
+        .photo-item::before {
+            content: 'photo';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            color: var(--muted-brown);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .photo-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* ========================================
+           PIECES SECTION - Chair Cards
+           ======================================== */
+        #pieces {
+            padding: var(--space-xl) var(--space-md);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-md);
+            margin-top: var(--space-lg);
+        }
+
+        .card {
+            background-color: var(--bg-card);
+            border: 1px solid rgba(144, 113, 95, 0.3);
+            border-radius: 6px;
+            padding: var(--space-md);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(37, 35, 31, 0.1);
+        }
+
+        .card-image {
+            aspect-ratio: 3/2;
+            background-color: var(--bg-paper);
+            border-radius: 4px;
+            margin-bottom: var(--space-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-image span {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            color: var(--muted-brown);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .card h3 {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 1.25rem;
+            font-weight: 400;
+            color: var(--ink);
+            margin-bottom: var(--space-xs);
+        }
+
+        .card p {
+            font-size: 0.9375rem;
+            color: var(--charcoal);
+            line-height: 1.6;
+            margin-bottom: var(--space-sm);
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background-color: var(--accent-sage);
+            color: var(--bg-paper);
+            font-size: 0.75rem;
+            font-weight: 500;
+            border-radius: 100px;
+            margin-right: var(--space-xs);
+            margin-bottom: var(--space-xs);
+        }
+
+        /* ========================================
+           ABOUT SECTION
+           ======================================== */
+        #about {
+            background-color: var(--deep-forest);
+            color: var(--bg-paper);
+            padding: var(--space-xl) var(--space-md);
+        }
+
+        .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        #about .section-label {
+            color: var(--accent-sage);
+        }
+
+        #about .section-title {
+            color: var(--bg-paper);
+            margin-bottom: var(--space-md);
+        }
+
+        .about-text {
+            font-size: 1.0625rem;
+            line-height: 1.8;
+            color: rgba(241, 239, 234, 0.85);
+            margin-bottom: var(--space-md);
+        }
+
+        .contact-link {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-xs);
+            color: var(--accent-terracotta);
+            font-weight: 500;
+            text-decoration: none;
+            transition: gap 0.2s ease;
+        }
+
+        .contact-link:hover {
+            gap: var(--space-sm);
+        }
+
+        .contact-link svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* ========================================
+           FOOTER
+           ======================================== */
+        footer {
+            background-color: var(--deep-forest);
+            border-top: 1px solid rgba(241, 239, 234, 0.1);
+            padding: var(--space-md);
+            text-align: center;
+        }
+
+        footer p {
+            font-size: 0.8125rem;
+            color: rgba(241, 239, 234, 0.5);
+        }
+
+        /* ========================================
+           RESPONSIVE
+           ======================================== */
+        @media (max-width: 768px) {
+            nav {
+                padding: var(--space-sm);
+            }
+
+            .nav-links {
+                gap: var(--space-sm);
+            }
+
+            .nav-links a {
+                font-size: 0.8125rem;
+            }
+
+            .hero {
+                grid-template-columns: 1fr;
+                padding-top: calc(var(--space-lg) + 60px);
+            }
+
+            .hero-image {
+                height: 50vh;
+                min-height: 300px;
+                order: -1;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <a href="#" class="logo">chair weaving</a>
+        <ul class="nav-links">
+            <li><a href="#work">work</a></li>
+            <li><a href="#pieces">pieces</a></li>
+            <li><a href="#about">about</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Restoring the craft of Danish cord weaving</h1>
+            <p class="hero-intro">
+                Specializing in traditional paper cord and Danish weaving techniques for 
+                mid-century modern chairs. Each seat is carefully rewoven by hand, honoring 
+                the original craftsmanship while giving your furniture new life.
+            </p>
+            <div class="divider"></div>
+            <a href="#about" class="hero-cta">Get in touch</a>
+        </div>
+        <div class="hero-image">
+            <span>photo</span>
+            <!-- Replace with: <img src="your-hero-image.jpg" alt="Chair weaving detail"> -->
+        </div>
+    </section>
+
+    <!-- Work Section - Photo Grid -->
+    <section id="work">
+        <div class="section-header">
+            <p class="section-label">Recent Work</p>
+            <h2 class="section-title">Before & after transformations</h2>
+        </div>
+        <div class="photo-grid">
+            <div class="photo-item">
+                <!-- Replace with: <img src="your-image.jpg" alt="Description"> -->
+            </div>
+            <div class="photo-item"></div>
+            <div class="photo-item"></div>
+            <div class="photo-item"></div>
+            <div class="photo-item"></div>
+            <div class="photo-item"></div>
+        </div>
+    </section>
+
+    <!-- Pieces Section - Chair Types -->
+    <section id="pieces">
+        <div class="section-header">
+            <p class="section-label">Services</p>
+            <h2 class="section-title">Chairs I work on</h2>
+        </div>
+        <div class="cards-grid">
+            <!-- Card 1 -->
+            <article class="card">
+                <div class="card-image">
+                    <span>photo</span>
+                </div>
+                <h3>Wishbone Chair (CH24)</h3>
+                <p>Hans Wegner's iconic design with its distinctive Y-shaped back. Paper cord seat restoration using traditional techniques.</p>
+                <span class="tag">Paper Cord</span>
+                <span class="tag">Danish</span>
+            </article>
+
+            <!-- Card 2 -->
+            <article class="card">
+                <div class="card-image">
+                    <span>photo</span>
+                </div>
+                <h3>CH23 Dining Chair</h3>
+                <p>The classic Wegner dining chair featuring woven paper cord seats. A staple of mid-century Danish design.</p>
+                <span class="tag">Paper Cord</span>
+                <span class="tag">Danish</span>
+            </article>
+
+            <!-- Card 3 -->
+            <article class="card">
+                <div class="card-image">
+                    <span>photo</span>
+                </div>
+                <h3>Møller Dining Chairs</h3>
+                <p>Niels Otto Møller's elegant designs with their sculptural frames and woven cord seats.</p>
+                <span class="tag">Paper Cord</span>
+                <span class="tag">Danish</span>
+            </article>
+
+            <!-- Card 4 -->
+            <article class="card">
+                <div class="card-image">
+                    <span>photo</span>
+                </div>
+                <h3>Rush Seat Chairs</h3>
+                <p>Traditional rush weaving for ladder-back and Shaker-style chairs. Natural fiber restoration.</p>
+                <span class="tag">Rush</span>
+                <span class="tag">Traditional</span>
+            </article>
+
+            <!-- Card 5 -->
+            <article class="card">
+                <div class="card-image">
+                    <span>photo</span>
+                </div>
+                <h3>Cane Seat Chairs</h3>
+                <p>Hand-woven cane restoration for antique and vintage chairs. Both sheet cane and hand-caned available.</p>
+                <span class="tag">Cane</span>
+                <span class="tag">Antique</span>
+            </article>
+
+            <!-- Card 6 -->
+            <article class="card">
+                <div class="card-image">
+                    <span>photo</span>
+                </div>
+                <h3>Custom Projects</h3>
+                <p>Have something unique? I take on custom weaving projects and can work with various materials and patterns.</p>
+                <span class="tag">Custom</span>
+            </article>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="about-content">
+            <p class="section-label">About</p>
+            <h2 class="section-title">Craft, care, and patience</h2>
+            <p class="about-text">
+                Based in San Francisco, I specialize in the restoration of mid-century modern 
+                chair seats using traditional Danish paper cord weaving techniques. Each chair 
+                is a piece of design history, and I believe it deserves the same attention to 
+                craft that went into its original creation.
+            </p>
+            <p class="about-text">
+                Whether you have a family heirloom that needs new life or a vintage find 
+                waiting for restoration, I'd love to hear about your project.
+            </p>
+            <a href="mailto:hello@example.com" class="contact-link">
+                Get in touch
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 Chair Weaving. San Francisco, CA.</p>
+    </footer>
+</body>
+</html>
