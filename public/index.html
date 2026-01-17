@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chair Weaving | Danish Cord & Seat Restoration</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Masonry Library -->
+    <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+    
+    <style>
+        /* ========================================
+           CSS VARIABLES - Your Color Palette
+           ======================================== */
+        :root {
+            /* Core surfaces */
+            --bg-paper: #F1EFEA;
+            --bg-card: #E9DABB;
+            --bg-clay: #D5A583;
+            
+            /* Brand accents */
+            --accent-terracotta: #D76C4F;
+            --accent-sage: #768F5F;
+            --accent-lilac: #888ED8;
+            
+            /* Typography */
+            --ink: #25231F;
+            --charcoal: #615F59;
+            --muted-brown: #90715F;
+            
+            /* Optional deep anchor */
+            --deep-forest: #2F3B2F;
+            
+            /* Spacing */
+            --space-xs: 0.5rem;
+            --space-sm: 1rem;
+            --space-md: 2rem;
+            --space-lg: 4rem;
+            --space-xl: 6rem;
+        }
+
+        /* ========================================
+           BASE STYLES
+           ======================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-paper);
+            color: var(--charcoal);
+            line-height: 1.6;
+        }
+
+        /* ========================================
+           NAVIGATION
+           ======================================== */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: var(--space-sm) var(--space-md);
+            background-color: var(--bg-paper);
+            border-bottom: 1px solid rgba(144, 113, 95, 0.2);
+            z-index: 100;
+        }
+
+        .nav-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 1.5rem;
+            font-weight: 400;
+            color: var(--accent-terracotta);
+            text-decoration: none;
+            letter-spacing: 0.02em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: var(--space-md);
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--charcoal);
+            text-decoration: none;
+            text-transform: lowercase;
+            letter-spacing: 0.03em;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-terracotta);
+        }
+
+        /* ========================================
+           HERO SECTION
+           ======================================== */
+        .hero {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-lg);
+            align-items: center;
+            padding: calc(var(--space-xl) + 60px) 0 var(--space-xl);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero-content {
+            max-width: 540px;
+        }
+
+        .hero-image {
+            height: 70vh;
+            min-height: 500px;
+            max-height: 700px;
+            background-color: var(--bg-card);
+            border-radius: 6px;
+            border: 1px solid rgba(144, 113, 95, 0.3);
+            padding-right: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slideshow-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .slide.active {
+            opacity: 1;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+
+        .slideshow-dots {
+            position: absolute;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 0.5rem;
+            z-index: 10;
+            padding: 0.5rem 1rem;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 50px;
+            backdrop-filter: blur(4px);
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: rgba(215, 108, 79, 0.3);
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .dot.active {
+            background-color: var(--accent-terracotta);
+        }
+
+        .dot:hover {
+            background-color: rgba(215, 108, 79, 0.5);
+        }
+
+        .hero h1 {
+            font-family: 'Libre Baskerville', serif;
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 400;
+            color: var(--ink);
+            line-height: 1.2;
+            margin-bottom: var(--space-md);
+        }
+
+        .hero-intro {
+            font-size: 1.125rem;
+            color: var(--charcoal);
+            line-height: 1.7;
+            margin-bottom: var(--space-md);
+        }
+
+        .hero-cta {
+            display: inline-block;
+            padding: 0.875rem 1.75rem;
+            background-color: var(--accent-terracotta);
+            color: var(--bg-paper);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.875rem;
+            font-weight: 500;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .hero-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(215, 108, 79, 0.3);
+        }
+
+        /* Hand-drawn divider */
+        .divider {
+            width: 60px;
+            height: 2px;
+            background-color: var(--ink);
+            margin: var(--space-lg) 0;
+            position: relative;
+        }
+
+        .divider::after {
+            content: '';
+            position: absolute;
+            top: 6px;
+            left: 10px;
+            width: 40px;
+            height: 1px;
+            background-color: var(--muted-brown);
+        }
+
+        /* ========================================
+           WORK SECTION - Photo Grid
+           ======================================== */
+        #work {
+            background-color: var(--bg-clay);
+            padding: var(--space-xl) var(--space-md);
+        }
+
+        .section-header {
+            max-width: 1200px;
+            margin: 0 auto var(--space-lg);
+        }
+
+        .section-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--muted-brown);
+            margin-bottom: var(--space-xs);
+        }
+
+        .section-title {
+            font-family: 'Libre Baskerville', serif;
+            font-size: clamp(1.75rem, 3vw, 2.25rem);
+            font-weight: 400;
+            color: var(--ink);
+        }
+
+        .photo-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .photo-item {
+            width: calc(33.333% - 11px);
+            margin-bottom: 1rem;
+            background-color: var(--bg-paper);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .photo-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .photo-item {
+                width: calc(50% - 8px);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .photo-item {
+                width: 100%;
+            }
+        }
+
+        /* ========================================
+           PIECES SECTION - Chair Cards
+           ======================================== */
+        #pieces {
+            padding: var(--space-xl) var(--space-md);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-md);
+            margin-top: var(--space-lg);
+        }
+
+        .card {
+            background-color: var(--bg-card);
+            border: 1px solid rgba(144, 113, 95, 0.3);
+            border-radius: 6px;
+            padding: var(--space-md);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(37, 35, 31, 0.1);
+        }
+
+        .card-image {
+            aspect-ratio: 1/1.3;
+            background-color: var(--bg-paper);
+            border-radius: 4px;
+            margin-top: 12px;
+            margin-bottom: var(--space-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-image .placeholder {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            color: var(--muted-brown);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .price-pill {
+            position: absolute;
+            left: var(--space-sm);
+            bottom: var(--space-sm);
+            background-color: var(--accent-sage);
+            color: var(--bg-paper);
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            padding: 0.35rem 0.75rem;
+            border-radius: 999px;
+            z-index: 1;
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        .card h3 {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 1.25rem;
+            font-weight: 400;
+            color: var(--ink);
+            margin-bottom: var(--space-xs);
+        }
+
+        .card p {
+            font-size: 0.9375rem;
+            color: var(--charcoal);
+            line-height: 1.6;
+            margin-bottom: var(--space-sm);
+        }
+
+        /* ========================================
+           ABOUT SECTION
+           ======================================== */
+        #about {
+            background-color: var(--deep-forest);
+            color: var(--bg-paper);
+            padding: var(--space-xl) var(--space-md);
+        }
+
+        .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        #about .section-label {
+            color: var(--accent-sage);
+        }
+
+        #about .section-title {
+            color: var(--bg-paper);
+            margin-bottom: var(--space-md);
+        }
+
+        .about-text {
+            font-size: 1.0625rem;
+            line-height: 1.8;
+            color: rgba(241, 239, 234, 0.85);
+            margin-bottom: var(--space-md);
+        }
+
+        .contact-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-sm);
+            margin-top: var(--space-sm);
+        }
+
+        .contact-link {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-xs);
+            color: var(--accent-terracotta);
+            font-weight: 500;
+            text-decoration: none;
+            transition: gap 0.2s ease;
+        }
+
+        .contact-link:hover {
+            gap: var(--space-sm);
+        }
+
+        .contact-link svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* ========================================
+           FOOTER
+           ======================================== */
+        footer {
+            background-color: var(--deep-forest);
+            border-top: 1px solid rgba(241, 239, 234, 0.1);
+            padding: var(--space-md);
+            text-align: center;
+        }
+
+        footer p {
+            font-size: 0.8125rem;
+            color: rgba(241, 239, 234, 0.5);
+        }
+
+        /* ========================================
+           RESPONSIVE
+           ======================================== */
+        @media (max-width: 768px) {
+            nav {
+                padding: var(--space-sm);
+            }
+
+            .nav-links {
+                gap: var(--space-sm);
+            }
+
+            .nav-links a {
+                font-size: 0.9375rem;
+            }
+
+            .hero {
+                grid-template-columns: 1fr;
+                padding: calc(var(--space-lg) + 60px) var(--space-sm) var(--space-xl);
+            }
+
+            .hero-image {
+                height: 50vh;
+                min-height: 300px;
+                order: -1;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-inner">
+            <a href="#" class="logo">Cord and frame</a>
+            <ul class="nav-links">
+                <li><a href="#work">work</a></li>
+                <li><a href="#pieces">pieces</a></li>
+                <li><a href="#about">about</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Restoring the craft of cord weaving</h1>
+            <p class="hero-intro">
+                Specializing in traditional paper cord and Danish weaving techniques for 
+                mid-century modern chairs. Each seat is carefully rewoven by hand, honoring 
+                the original craftsmanship while giving your furniture new life.
+            </p>
+            <div class="divider"></div>
+            <a href="mailto:me.daveobrien@gmail.com" class="hero-cta">Email me</a>
+            <a href="sms:4153238657" class="hero-cta">Text me</a>
+        </div>
+        <div class="hero-image">
+            <div class="slideshow-container">
+                <div class="slide active">
+                    <img src="images/hero-image.jpeg" alt="Chair weaving detail">
+                </div>
+                <div class="slide">
+                    <img src="images/hero-image-2.png" alt="Chair weaving detail">
+                </div>
+                <div class="slide">
+                    <img src="images/hero-image-3.png" alt="Chair weaving detail">
+                </div>
+                <div class="slide">
+                    <img src="images/hero-image-4.jpeg" alt="Chair weaving detail">
+                </div>
+            </div>
+            <div class="slideshow-dots">
+                <span class="dot active" data-slide="0"></span>
+                <span class="dot" data-slide="1"></span>
+                <span class="dot" data-slide="2"></span>
+                <span class="dot" data-slide="3"></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Work Section - Photo Grid -->
+    <section id="work">
+        <div class="section-header">
+            <p class="section-label">Recent Work</p>
+            <h2 class="section-title">Completed restorations</h2>
+        </div>
+        <div class="photo-grid" id="masonry-grid">
+            <div class="photo-item">
+                <img src="images/IMG_3076.jpeg" alt="Chair restoration work">
+            </div>
+            <div class="photo-item">
+                <img src="images/IMG_0146.png" alt="Chair restoration work">
+            </div>
+            <div class="photo-item">
+                <img src="images/image 1052.png" alt="Chair restoration work">
+            </div>
+            <div class="photo-item">
+                <img src="images/IMG_7568.jpeg" alt="Chair restoration work">
+            </div>
+            <div class="photo-item">
+                <img src="images/3A7EC0C2-814F-4A55-8AD0-D8294FDB0EFF.JPG" alt="Chair restoration work">
+            </div>
+            <div class="photo-item">
+                <img src="images/IMG_1426.png" alt="Chair restoration work">
+            </div>
+            <div class="photo-item">
+                <img src="images/IMG_7416.jpeg" alt="Chair restoration work">
+            </div>
+            <div class="photo-item">
+                <img src="images/IMG_3072 1.png" alt="Chair restoration work">
+            </div>
+            <div class="photo-item">
+                <img src="images/11620178-113D-4959-9D30-1DEF0C10809F.JPG" alt="Chair restoration work">
+            </div>
+            <div class="photo-item">
+                <img src="images/IMG_7581.jpeg" alt="Chair restoration work">
+            </div>
+            <div class="photo-item">
+                <img src="images/image 1051.png" alt="Chair restoration work">
+            </div>
+            <div class="photo-item">
+                <img src="images/IMG_0856.jpeg" alt="Chair restoration work">
+            </div>
+            <div class="photo-item">
+                <img src="images/IMG_3053.jpeg" alt="Chair restoration work">
+            </div>
+        </div>
+    </section>
+
+    <!-- Pieces Section - Chair Types -->
+    <section id="pieces">
+        <div class="section-header">
+            <p class="section-label">Services</p>
+            <h2 class="section-title">Chairs I work on</h2>
+        </div>
+        <div class="cards-grid">
+            <!-- Card 1 -->
+            <article class="card">
+                <div class="card-image">
+                    <span class="price-pill">$180 per chair</span>
+                    <img src="images/wishbone-illo.png" alt="Wishbone Chair illustration">
+                </div>
+                <h3>Evelope weave</h3>
+                <p>A distinctive pattern that wraps the cord diagonally across the seat frame, creating the signature triangular corners. Requires precise tensioning to achieve the iconic sculpted look.</p>
+            </article>
+
+            <!-- Card 2 -->
+            <article class="card">
+                <div class="card-image">
+                    <span class="price-pill">$200 per chair</span>
+                    <img src="images/ch23-illo.png" alt="Wishbone Chair illustration">
+                </div>
+                <h3>Double rail weave</h3>
+                <p>Classic Danish design featuring a double-rail frame that provides extra seat support. Woven with natural paper cord in a traditional L-weave pattern for lasting durability.</p>
+            </article>
+
+            <!-- Card 3 -->
+            <article class="card">
+                <div class="card-image">
+                    <span class="price-pill">$160 per chair</span>
+                    <img src="images/moller-illo.png" alt="Wishbone Chair illustration">
+                </div>
+                <h3>Single rail weave</h3>
+                <p>A pattern that wraps around a single front rail. Creates a clean, uniform seat with a slightly firmer feel than double rail styles.</p>
+            </article>
+
+
+            <!-- Card 5 -->
+            <article class="card">
+                <div class="card-image">
+                    <img src="images/walter-illo.png" alt="Wishbone Chair illustration">
+                    <span class="price-pill">$150+ per chair</span>
+                </div>
+                <h3>Lewis/Lamb weave</h3>
+                <p>A nautical-inspired pattern using woven cord or vinyl lacing stretched across tubular frames. Features a signature crisscross technique that creates a flexible, hammock-like seat with natural give.</p>
+            </article>
+
+
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="about-content">
+            <p class="section-label">About</p>
+            <h2 class="section-title">Craft, care, and patience</h2>
+            <p class="about-text">
+                Based El Cerrito (just outside San Francisco), I specialize in the restoration of mid-century modern 
+                chair seats using traditional Danish paper cord weaving techniques. Each chair 
+                is a piece of design history, and I believe it deserves the same attention to 
+                craft that went into its original creation.
+            </p>
+            <p class="about-text">
+                Whether you have a family heirloom that needs new life or a vintage find 
+                waiting for restoration, I'd love to hear about your project.
+            </p>
+            <div class="contact-actions">
+                <a href="mailto:me.daveobrien@gmail.com" class="contact-link">
+                    Email me
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </a>
+                <a href="sms:4153238657" class="contact-link">
+                    Text me
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 Chair Weaving. El Cerrito, CA.</p>
+    </footer>
+
+    <script>
+        // Hero Slideshow
+        (function() {
+            const slides = document.querySelectorAll('.hero-image .slide');
+            const dots = document.querySelectorAll('.hero-image .dot');
+            let currentSlide = 0;
+            let slideInterval;
+
+            function showSlide(index) {
+                // Remove active class from all slides and dots
+                slides.forEach(slide => slide.classList.remove('active'));
+                dots.forEach(dot => dot.classList.remove('active'));
+
+                // Add active class to current slide and dot
+                if (slides[index]) {
+                    slides[index].classList.add('active');
+                }
+                if (dots[index]) {
+                    dots[index].classList.add('active');
+                }
+
+                currentSlide = index;
+            }
+
+            function nextSlide() {
+                const next = (currentSlide + 1) % slides.length;
+                showSlide(next);
+            }
+
+            function startSlideshow() {
+                slideInterval = setInterval(nextSlide, 5000); // Change slide every 5 seconds
+            }
+
+            function stopSlideshow() {
+                clearInterval(slideInterval);
+            }
+
+            // Add click handlers to dots
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', () => {
+                    showSlide(index);
+                    stopSlideshow();
+                    startSlideshow(); // Restart the auto-advance
+                });
+            });
+
+            // Pause on hover
+            const heroImage = document.querySelector('.hero-image');
+            if (heroImage) {
+                heroImage.addEventListener('mouseenter', stopSlideshow);
+                heroImage.addEventListener('mouseleave', startSlideshow);
+            }
+
+            // Start the slideshow
+            startSlideshow();
+        })();
+
+        // Initialize Masonry for photo grid
+        document.addEventListener('DOMContentLoaded', function() {
+            const grid = document.querySelector('#masonry-grid');
+            if (grid && typeof Masonry !== 'undefined') {
+                // Calculate column width based on container
+                function getColumnWidth() {
+                    const containerWidth = grid.offsetWidth;
+                    if (window.innerWidth <= 480) {
+                        return containerWidth;
+                    } else if (window.innerWidth <= 768) {
+                        return (containerWidth - 16) / 2;
+                    } else {
+                        return (containerWidth - 32) / 3;
+                    }
+                }
+
+                // Wait for images to load
+                const images = grid.querySelectorAll('img');
+                let loadedImages = 0;
+                const totalImages = images.length;
+
+                function initMasonry() {
+                    const msnry = new Masonry(grid, {
+                        itemSelector: '.photo-item',
+                        columnWidth: getColumnWidth(),
+                        percentPosition: false,
+                        gutter: 16
+                    });
+
+                    // Recalculate on window resize
+                    let resizeTimer;
+                    window.addEventListener('resize', function() {
+                        clearTimeout(resizeTimer);
+                        resizeTimer = setTimeout(function() {
+                            msnry.columnWidth = getColumnWidth();
+                            msnry.layout();
+                        }, 250);
+                    });
+                }
+
+                if (totalImages === 0) {
+                    initMasonry();
+                } else {
+                    images.forEach(img => {
+                        if (img.complete) {
+                            loadedImages++;
+                            if (loadedImages === totalImages) {
+                                initMasonry();
+                            }
+                        } else {
+                            img.addEventListener('load', function() {
+                                loadedImages++;
+                                if (loadedImages === totalImages) {
+                                    initMasonry();
+                                }
+                            });
+                            img.addEventListener('error', function() {
+                                loadedImages++;
+                                if (loadedImages === totalImages) {
+                                    initMasonry();
+                                }
+                            });
+                        }
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+</html>
