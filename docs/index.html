@@ -550,6 +550,152 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        /* ========================================
+           PRICE CALCULATOR
+           ======================================== */
+        #calculator {
+            padding: var(--space-xl) var(--space-md);
+            max-width: 780px;
+            margin: 0 auto;
+        }
+
+        .calc-header {
+            margin-bottom: var(--space-md);
+        }
+
+        .calc-title {
+            font-family: 'Libre Baskerville', serif;
+            font-size: clamp(1.75rem, 3vw, 2.25rem);
+            color: var(--ink);
+            font-weight: 400;
+            margin-bottom: 0.4rem;
+        }
+
+        .calc-subtitle {
+            color: var(--charcoal);
+            font-size: 0.95rem;
+        }
+
+        .calc-block {
+            background: var(--bg-card);
+            border: 1px solid rgba(144, 113, 95, 0.25);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .calc-col-headers {
+            display: grid;
+            grid-template-columns: 1fr 120px 90px;
+            padding: 0.6rem 1.25rem;
+            border-bottom: 1px solid rgba(144, 113, 95, 0.2);
+            font-size: 0.72rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--muted-brown);
+        }
+
+        .calc-row {
+            display: grid;
+            grid-template-columns: 1fr 120px 90px;
+            align-items: center;
+            padding: 0.85rem 1.25rem;
+            border-bottom: 1px solid rgba(144, 113, 95, 0.15);
+            transition: background 0.15s;
+        }
+
+        .calc-row:last-child {
+            border-bottom: none;
+        }
+
+        .calc-row:hover {
+            background: rgba(255,255,255,0.35);
+        }
+
+        .calc-row-name {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--ink);
+        }
+
+        .calc-row-price {
+            font-size: 0.9rem;
+            color: var(--charcoal);
+        }
+
+        .calc-stepper {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .stepper-btn {
+            width: 26px;
+            height: 26px;
+            border-radius: 6px;
+            border: 1px solid rgba(144, 113, 95, 0.35);
+            background: var(--bg-paper);
+            color: var(--ink);
+            font-size: 1rem;
+            line-height: 1;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.15s, border-color 0.15s;
+        }
+
+        .stepper-btn:hover {
+            background: var(--accent-sage);
+            color: var(--bg-paper);
+            border-color: var(--accent-sage);
+        }
+
+        .stepper-val {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--ink);
+            min-width: 18px;
+            text-align: center;
+        }
+
+        .calc-total-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.25rem;
+            margin-top: 1rem;
+            background: var(--accent-sage);
+            border-radius: 10px;
+            color: var(--bg-paper);
+        }
+
+        .calc-total-label {
+            font-size: 0.9rem;
+            font-weight: 500;
+            opacity: 0.9;
+        }
+
+        .calc-total-chairs {
+            font-size: 0.85rem;
+            opacity: 0.75;
+            margin-top: 0.15rem;
+        }
+
+        .calc-total-amount {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 1.9rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+        }
+
+        .calc-note {
+            margin-top: 0.75rem;
+            font-size: 0.8rem;
+            color: var(--muted-brown);
+            text-align: center;
+        }
     </style>
 
     <!-- Structured Data (JSON-LD) -->
@@ -739,6 +885,68 @@
         </div>
     </section>
 
+    <!-- Price Calculator Section -->
+    <section id="calculator">
+        <div class="calc-header">
+            <p class="section-label">Estimate</p>
+            <h2 class="calc-title">How much will it cost?</h2>
+            <p class="calc-subtitle">Labour only — materials quoted separately.</p>
+        </div>
+
+        <div class="calc-block">
+            <div class="calc-col-headers">
+                <span>Weave type</span>
+                <span>Price per chair</span>
+                <span>Chairs</span>
+            </div>
+            <div class="calc-row">
+                <span class="calc-row-name">Envelope weave</span>
+                <span class="calc-row-price">$240</span>
+                <div class="calc-stepper">
+                    <button class="stepper-btn" onclick="adjust('envelope', -1)">−</button>
+                    <span class="stepper-val" id="val-envelope">0</span>
+                    <button class="stepper-btn" onclick="adjust('envelope', 1)">+</button>
+                </div>
+            </div>
+            <div class="calc-row">
+                <span class="calc-row-name">Double rail weave</span>
+                <span class="calc-row-price">$280</span>
+                <div class="calc-stepper">
+                    <button class="stepper-btn" onclick="adjust('double', -1)">−</button>
+                    <span class="stepper-val" id="val-double">0</span>
+                    <button class="stepper-btn" onclick="adjust('double', 1)">+</button>
+                </div>
+            </div>
+            <div class="calc-row">
+                <span class="calc-row-name">Single rail weave</span>
+                <span class="calc-row-price">$220</span>
+                <div class="calc-stepper">
+                    <button class="stepper-btn" onclick="adjust('single', -1)">−</button>
+                    <span class="stepper-val" id="val-single">0</span>
+                    <button class="stepper-btn" onclick="adjust('single', 1)">+</button>
+                </div>
+            </div>
+            <div class="calc-row">
+                <span class="calc-row-name">Lewis/Lamb weave</span>
+                <span class="calc-row-price">$200</span>
+                <div class="calc-stepper">
+                    <button class="stepper-btn" onclick="adjust('lewis', -1)">−</button>
+                    <span class="stepper-val" id="val-lewis">0</span>
+                    <button class="stepper-btn" onclick="adjust('lewis', 1)">+</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="calc-total-row">
+            <div>
+                <div class="calc-total-label">Estimated total</div>
+                <div class="calc-total-chairs" id="total-chairs">0 chairs selected</div>
+            </div>
+            <div class="calc-total-amount" id="total-amount">$0</div>
+        </div>
+        <p class="calc-note">Final quote may vary based on chair condition and complexity.</p>
+    </section>
+
     <!-- About Section -->
     <section id="about">
         <div class="about-content">
@@ -906,6 +1114,26 @@
                 }
             }
         });
+
+        // Price Calculator
+        const prices = { envelope: 240, double: 280, single: 220, lewis: 200 };
+        const counts = { envelope: 0, double: 0, single: 0, lewis: 0 };
+
+        function adjust(type, delta) {
+            counts[type] = Math.max(0, counts[type] + delta);
+            document.getElementById('val-' + type).textContent = counts[type];
+            updateTotal();
+        }
+
+        function updateTotal() {
+            let total = 0, chairs = 0;
+            for (const type in counts) {
+                total += counts[type] * prices[type];
+                chairs += counts[type];
+            }
+            document.getElementById('total-amount').textContent = '$' + total.toLocaleString();
+            document.getElementById('total-chairs').textContent = chairs === 1 ? '1 chair selected' : chairs + ' chairs selected';
+        }
     </script>
 </body>
 </html>
