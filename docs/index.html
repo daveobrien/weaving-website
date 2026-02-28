@@ -980,7 +980,7 @@
         <div class="calc-header">
             <p class="section-label">Estimate</p>
             <h2 class="calc-title">How much will it cost?</h2>
-            <p class="calc-subtitle">Labour only — materials quoted separately.</p>
+            <p class="calc-subtitle">Labour + materials included in estimate.</p>
         </div>
 
         <div class="calc-block">
@@ -1027,27 +1027,6 @@
             </div>
         </div>
 
-        <!-- Cord selector -->
-        <div class="calc-cord-section">
-            <div class="calc-cord-label">Danish cord <span class="calc-cord-source">via <a href="https://www.caneandbasket.com/ProductDetails.asp?ProductCode=S%2DDSC2LB" target="_blank">Cane &amp; Basket Supply</a></span></div>
-            <div class="calc-cord-options">
-                <label class="cord-option active" id="cord-opt-coil">
-                    <input type="radio" name="cord" value="coil" checked onchange="updateTotal()">
-                    <div class="cord-option-inner">
-                        <span class="cord-option-name">2lb coil</span>
-                        <span class="cord-option-detail">1 per chair · $31 each</span>
-                    </div>
-                </label>
-                <label class="cord-option" id="cord-opt-spool">
-                    <input type="radio" name="cord" value="spool" onchange="updateTotal()">
-                    <div class="cord-option-inner">
-                        <span class="cord-option-name">10lb spool</span>
-                        <span class="cord-option-detail">covers ~5 chairs · $135 each</span>
-                    </div>
-                </label>
-            </div>
-        </div>
-
         <!-- Breakdown -->
         <div class="calc-breakdown" id="calc-breakdown" style="display:none">
             <div class="breakdown-row">
@@ -1055,7 +1034,7 @@
                 <span id="bd-labour">$0</span>
             </div>
             <div class="breakdown-row">
-                <span id="bd-cord-label">Material</span>
+                <span id="bd-cord-label">Material (incl. tax &amp; shipping)</span>
                 <span id="bd-material">$0</span>
             </div>
         </div>
@@ -1067,7 +1046,7 @@
             </div>
             <div class="calc-total-amount" id="total-amount">$0</div>
         </div>
-        <p class="calc-note">Final quote may vary based on chair condition and complexity. Material prices sourced from Cane &amp; Basket Supply.</p>
+        <p class="calc-note">Final quote may vary based on chair condition and complexity. Material cost estimated at $32/chair (incl. tax &amp; shipping).</p>
     </section>
 
     <!-- About Section -->
@@ -1255,33 +1234,13 @@
                 chairs += counts[type];
             }
 
-            // Material cost
-            const cordType = document.querySelector('input[name="cord"]:checked').value;
-            let material = 0;
-            let cordLabel = 'Material';
-            if (chairs > 0) {
-                if (cordType === 'coil') {
-                    // 1 x $31 coil per chair
-                    material = chairs * 31;
-                    cordLabel = 'Material (' + chairs + ' × 2lb coil)';
-                } else {
-                    // $135 per 10lb spool, covers 5 chairs each
-                    const spools = Math.ceil(chairs / 5);
-                    material = spools * 135;
-                    cordLabel = 'Material (' + spools + ' × 10lb spool)';
-                }
-            }
-
-            // Update cord option active state
-            document.querySelectorAll('.cord-option').forEach(el => el.classList.remove('active'));
-            const checkedInput = document.querySelector('input[name="cord"]:checked');
-            if (checkedInput) checkedInput.closest('.cord-option').classList.add('active');
+            // $32 flat material cost per chair (incl. tax & shipping)
+            const material = chairs * 32;
 
             // Show/hide breakdown
             const breakdown = document.getElementById('calc-breakdown');
             breakdown.style.display = chairs > 0 ? 'block' : 'none';
             document.getElementById('bd-labour').textContent = '$' + labour.toLocaleString();
-            document.getElementById('bd-cord-label').textContent = cordLabel;
             document.getElementById('bd-material').textContent = '$' + material.toLocaleString();
 
             const total = labour + material;
