@@ -690,6 +690,96 @@
             letter-spacing: -0.01em;
         }
 
+        .calc-cord-section {
+            margin-top: 1rem;
+        }
+
+        .calc-cord-label {
+            font-size: 0.78rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            color: var(--muted-brown);
+            margin-bottom: 0.5rem;
+        }
+
+        .calc-cord-source {
+            font-weight: 400;
+            text-transform: none;
+            letter-spacing: 0;
+        }
+
+        .calc-cord-source a {
+            color: var(--accent-sage);
+            text-decoration: none;
+        }
+
+        .calc-cord-source a:hover {
+            text-decoration: underline;
+        }
+
+        .calc-cord-options {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .cord-option {
+            flex: 1;
+            border: 1.5px solid rgba(144, 113, 95, 0.25);
+            border-radius: 8px;
+            padding: 0.7rem 1rem;
+            cursor: pointer;
+            background: var(--bg-card);
+            transition: border-color 0.15s, background 0.15s;
+        }
+
+        .cord-option input {
+            display: none;
+        }
+
+        .cord-option.active {
+            border-color: var(--accent-sage);
+            background: rgba(118, 143, 95, 0.12);
+        }
+
+        .cord-option-inner {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+        }
+
+        .cord-option-name {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--ink);
+        }
+
+        .cord-option-detail {
+            font-size: 0.78rem;
+            color: var(--charcoal);
+        }
+
+        .calc-breakdown {
+            margin-top: 0.85rem;
+            background: var(--bg-card);
+            border: 1px solid rgba(144, 113, 95, 0.2);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .breakdown-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.55rem 1.1rem;
+            font-size: 0.88rem;
+            color: var(--charcoal);
+            border-bottom: 1px solid rgba(144, 113, 95, 0.15);
+        }
+
+        .breakdown-row:last-child {
+            border-bottom: none;
+        }
+
         .calc-note {
             margin-top: 0.75rem;
             font-size: 0.8rem;
@@ -937,6 +1027,39 @@
             </div>
         </div>
 
+        <!-- Cord selector -->
+        <div class="calc-cord-section">
+            <div class="calc-cord-label">Danish cord <span class="calc-cord-source">via <a href="https://www.caneandbasket.com/ProductDetails.asp?ProductCode=S%2DDSC2LB" target="_blank">Cane &amp; Basket Supply</a></span></div>
+            <div class="calc-cord-options">
+                <label class="cord-option active" id="cord-opt-coil">
+                    <input type="radio" name="cord" value="coil" checked onchange="updateTotal()">
+                    <div class="cord-option-inner">
+                        <span class="cord-option-name">2lb coil</span>
+                        <span class="cord-option-detail">1 per chair · $31 each</span>
+                    </div>
+                </label>
+                <label class="cord-option" id="cord-opt-spool">
+                    <input type="radio" name="cord" value="spool" onchange="updateTotal()">
+                    <div class="cord-option-inner">
+                        <span class="cord-option-name">10lb spool</span>
+                        <span class="cord-option-detail">covers ~5 chairs · $135 each</span>
+                    </div>
+                </label>
+            </div>
+        </div>
+
+        <!-- Breakdown -->
+        <div class="calc-breakdown" id="calc-breakdown" style="display:none">
+            <div class="breakdown-row">
+                <span>Labour</span>
+                <span id="bd-labour">$0</span>
+            </div>
+            <div class="breakdown-row">
+                <span id="bd-cord-label">Material</span>
+                <span id="bd-material">$0</span>
+            </div>
+        </div>
+
         <div class="calc-total-row">
             <div>
                 <div class="calc-total-label">Estimated total</div>
@@ -944,7 +1067,7 @@
             </div>
             <div class="calc-total-amount" id="total-amount">$0</div>
         </div>
-        <p class="calc-note">Final quote may vary based on chair condition and complexity.</p>
+        <p class="calc-note">Final quote may vary based on chair condition and complexity. Material prices sourced from Cane &amp; Basket Supply.</p>
     </section>
 
     <!-- About Section -->
@@ -1126,13 +1249,44 @@
         }
 
         function updateTotal() {
-            let total = 0, chairs = 0;
+            let labour = 0, chairs = 0;
             for (const type in counts) {
-                total += counts[type] * prices[type];
+                labour += counts[type] * prices[type];
                 chairs += counts[type];
             }
+
+            // Material cost
+            const cordType = document.querySelector('input[name="cord"]:checked').value;
+            let material = 0;
+            let cordLabel = 'Material';
+            if (chairs > 0) {
+                if (cordType === 'coil') {
+                    // 1 x $31 coil per chair
+                    material = chairs * 31;
+                    cordLabel = 'Material (' + chairs + ' × 2lb coil)';
+                } else {
+                    // $135 per 10lb spool, covers 5 chairs each
+                    const spools = Math.ceil(chairs / 5);
+                    material = spools * 135;
+                    cordLabel = 'Material (' + spools + ' × 10lb spool)';
+                }
+            }
+
+            // Update cord option active state
+            document.querySelectorAll('.cord-option').forEach(el => el.classList.remove('active'));
+            const checkedInput = document.querySelector('input[name="cord"]:checked');
+            if (checkedInput) checkedInput.closest('.cord-option').classList.add('active');
+
+            // Show/hide breakdown
+            const breakdown = document.getElementById('calc-breakdown');
+            breakdown.style.display = chairs > 0 ? 'block' : 'none';
+            document.getElementById('bd-labour').textContent = '$' + labour.toLocaleString();
+            document.getElementById('bd-cord-label').textContent = cordLabel;
+            document.getElementById('bd-material').textContent = '$' + material.toLocaleString();
+
+            const total = labour + material;
             document.getElementById('total-amount').textContent = '$' + total.toLocaleString();
-            document.getElementById('total-chairs').textContent = chairs === 1 ? '1 chair selected' : chairs + ' chairs selected';
+            document.getElementById('total-chairs').textContent = chairs === 1 ? '1 chair · labour + material' : chairs + ' chairs · labour + material';
         }
     </script>
 </body>
