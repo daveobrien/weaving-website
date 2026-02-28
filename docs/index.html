@@ -389,16 +389,19 @@
 
         .price-pill {
             position: absolute;
-            left: var(--space-sm);
-            bottom: var(--space-sm);
+            left: 0;
+            bottom: 0;
+            width: 100%;
             background-color: var(--accent-sage);
             color: var(--bg-paper);
             font-size: calc(0.75rem + 2px);
             font-weight: 600;
             letter-spacing: 0.02em;
-            padding: 0.35rem 0.75rem;
-            border-radius: 999px;
+            padding: 0.5rem 0.75rem;
+            border-radius: 0;
             z-index: 1;
+            text-align: center;
+            box-sizing: border-box;
         }
 
         .card-image img {
