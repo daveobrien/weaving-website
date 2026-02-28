@@ -1046,7 +1046,7 @@
             </div>
             <div class="calc-total-amount" id="total-amount">$0</div>
         </div>
-        <p class="calc-note">Final quote may vary based on chair condition and complexity. Material cost estimated at $32/chair (incl. tax &amp; shipping).</p>
+        <p class="calc-note">Final quote may vary based on chair condition and complexity. Material cost estimated per chair type (incl. tax &amp; shipping).</p>
     </section>
 
     <!-- About Section -->
@@ -1218,8 +1218,9 @@
         });
 
         // Price Calculator
-        const prices = { envelope: 240, double: 280, single: 220, lewis: 200 };
-        const counts = { envelope: 0, double: 0, single: 0, lewis: 0 };
+        const prices   = { envelope: 240, double: 280, single: 220, lewis: 200 };
+        const material = { envelope: 32,  double: 42,  single: 32,  lewis: 32  };
+        const counts   = { envelope: 0,   double: 0,   single: 0,   lewis: 0   };
 
         function adjust(type, delta) {
             counts[type] = Math.max(0, counts[type] + delta);
@@ -1234,16 +1235,19 @@
                 chairs += counts[type];
             }
 
-            // $32 flat material cost per chair (incl. tax & shipping)
-            const material = chairs * 32;
+            // Material cost per chair type (incl. tax & shipping)
+            let materialCost = 0;
+            for (const type in counts) {
+                materialCost += counts[type] * material[type];
+            }
 
             // Show/hide breakdown
             const breakdown = document.getElementById('calc-breakdown');
             breakdown.style.display = chairs > 0 ? 'block' : 'none';
             document.getElementById('bd-labour').textContent = '$' + labour.toLocaleString();
-            document.getElementById('bd-material').textContent = '$' + material.toLocaleString();
+            document.getElementById('bd-material').textContent = '$' + materialCost.toLocaleString();
 
-            const total = labour + material;
+            const total = labour + materialCost;
             document.getElementById('total-amount').textContent = '$' + total.toLocaleString();
             document.getElementById('total-chairs').textContent = chairs === 1 ? '1 chair · labour + material' : chairs + ' chairs · labour + material';
         }
